@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import ListOfTasks from "../taskLists";
 import { Box, Paper, List, ListItem, Typography, Button } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -11,6 +11,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const Task = () => {
   const listRef = useRef(null);
+  const [tasks, setTasks] = useState(ListOfTasks);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   // fuction to handle the scrooll to the Top of the list
   const scrollTop = () => {
@@ -25,7 +27,32 @@ const Task = () => {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
   };
-  
+
+  // Listen for scroll events and update the scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (listRef.current) {
+        setScrollPosition(listRef.current.scrollTop); // Update scroll position in state
+      }
+    };
+
+    const currentListRef = listRef.current;
+    currentListRef.addEventListener("scroll", handleScroll); // Add scroll event listener
+
+    return () => {
+      if (currentListRef) {
+        currentListRef.removeEventListener("scroll", handleScroll); // Clean up the event listener
+      }
+    };
+  }, []);
+
+
+  const handleDelete = (index) => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+  };
+
   return (
     <Box
       component={Paper}
@@ -36,17 +63,23 @@ const Task = () => {
         position: "relative",
       }}
     >
+      {tasks.length !== 0 ? (
       <List
         component={Paper}
         ref={listRef}
         sx={{
-          maxHeight: 400,
+          maxHeight: 450,
           overflowY: "auto",
           overflowX: "hidden",
           padding: 1,
         }}
       >
-        {ListOfTasks.map((task, index) => (
+        
+          <Typography variant="h6" align="center">
+            {tasks.length} tasks
+          </Typography>
+        
+        {tasks.map((task, index) => (
           <Box
             key={index}
             sx={{
@@ -80,15 +113,31 @@ const Task = () => {
                 <IconButton edge="start" aria-label="edit">
                   <EditIcon />
                 </IconButton>
-                <IconButton edge="start" aria-label="delete">
+                <IconButton onClick={handleDelete} edge="start" aria-label="delete">
                   <DeleteIcon sx={{color: "red"}} />
                 </IconButton>
               </Box>
             </ListItem>
           </Box>
         ))}
+      
       </List>
-      <Box
+      ) : (
+        <Typography variant="h6" align="center">
+          No tasks
+        </Typography> 
+
+      )
+      }
+      <Button
+        variant="contained"
+        sx={{ backgroundColor: "#384727dc", marginTop: 2 }}
+      >
+        Add Task
+      </Button>
+
+      {scrollPosition === 0 ? (
+        <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -100,18 +149,36 @@ const Task = () => {
         }}
       >
         <IconButton
-          sx={{ backgroundColor: "#84f504dc", borderRadius: "50%", boxShadow: 4  }}
-          onClick={scrollTop}
-        >
-          <KeyboardArrowUpIcon sx={{color: "black"}} />
-        </IconButton>
-        <IconButton
-          sx={{ backgroundColor: "#84f504dc", borderRadius: "50%", boxShadow: 2 }}
+          sx={{ backgroundColor: "#5fac07dc", borderRadius: "50%", boxShadow: 2 }}
           onClick={scrollBottom}
         >
           <KeyboardArrowDownIcon sx={{color: "black"}}  />
         </IconButton>
       </Box>
+      ):(
+        <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          // marginTop: 2,
+          position: "absolute",
+          alignItems: "center", 
+          left: "50%",
+          
+        }}
+      >
+        <IconButton
+          sx={{ backgroundColor: "#5fac07dc", borderRadius: "50%", boxShadow: 4  }}
+          onClick={scrollTop}
+        >
+          <KeyboardArrowUpIcon sx={{color: "black"}} />
+        </IconButton>
+        
+      </Box>
+      )
+    }
+      
+      
     </Box>
   );
 };
