@@ -15,15 +15,16 @@ function App() {
         component={Paper}
         sx={{
           width: "100%",
-          height: 650,
-          maxWidth: 800,
+          height: 630,
+          // maxHeight: "100vh",
+          maxWidth: 820,
           margin: "10px auto",
-          backgroundColor: "#384727dc",
+          backgroundColor: "#f5f5f5",
           borderRadius: 10,
         }}
       >
-        <Typography variant="h4" align="center">
-          To Do List
+        <Typography variant="h6" align="center">
+          Task Manager
         </Typography>
         <Router>
           <Routes>
