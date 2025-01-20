@@ -93,7 +93,7 @@ const TaskRow = ({ task }) => {
               <Typography>{task.text}</Typography>
             </Box>
             <IconButton edge="start" aria-label="delete">
-              <Edit />
+              <Edit  />
             </IconButton>
             <IconButton edge="start" aria-label="delete">
               <DeleteIcon />
