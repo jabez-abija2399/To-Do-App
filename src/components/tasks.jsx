@@ -1,6 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import ListOfTasks from "../taskLists";
-import { Box, Paper, List, ListItem, Typography, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Paper,
+  List,
+  ListItem,
+  Typography,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,6 +29,8 @@ const Task = ({ tasks, setTasks }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [editingIndex, setEditingIndex] = useState(null); // Track the task being edited
   const [editText, setEditText] = useState(""); // Temporary state for edited task text
+  const [completed, setCompleted] = useState(false);
+  const [filter, setFilter] = useState("all"); // Filter state
 
   // fuction to handle the scrooll to the Top of the list
   const scrollTop = () => {
@@ -78,6 +92,19 @@ const Task = ({ tasks, setTasks }) => {
     setEditText(""); // Clear temporary state
   };
 
+  const handleComplete = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  };
+
+    // Filter tasks based on the selected filter
+    const filteredTasks = tasks.filter((task) => {
+      if (filter === "completed") return task.completed;
+      if (filter === "incomplete") return !task.completed;
+      return true; // "all"
+    });
+
   return (
     <Box
       component={Paper}
@@ -86,103 +113,131 @@ const Task = ({ tasks, setTasks }) => {
         margin: "20px auto",
         padding: 2,
         position: "relative",
-        height: 560,
+        // height: "100%",
+        maxHeight: "100vh",
+        // overflow: "hidden",
+        borderRadius: 10,
       }}
     >
-      {/* <AddTaskForm onAddTask={handleAddTask} /> */}
-      {tasks.length !== 0 ? (
+      <Typography variant="h6" align="center">
+            {filteredTasks.length} Tasks
+          </Typography>
+      {/* Dropdown for Filtering */}
+      <FormControl fullWidth sx={{ marginBottom: 2 }}>
+        <InputLabel>Filter Tasks</InputLabel>
+        <Select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          label="Filter Tasks"
+        >
+          <MenuItem value="all">All</MenuItem>
+          <MenuItem value="completed">Completed</MenuItem>
+          <MenuItem value="incomplete">Incomplete</MenuItem>
+        </Select>
+      </FormControl>
+
+      {filteredTasks.length !== 0 ? (
         <List
           component={Paper}
           ref={listRef}
           sx={{
-            maxHeight: 450,
+            maxHeight: 350,
             overflowY: "auto",
             overflowX: "hidden",
             padding: 1,
           }}
         >
-          <Typography variant="h6" align="center">
-            {tasks.length} tasks
-          </Typography>
+          
 
-          {tasks.map((task, index) => (
-            <Box
-              key={index}
-              sx={{
-                backgroundColor: "#dbf3bfdc",
-                padding: 1,
-                margin: 1,
-                borderRadius: 5,
-              }}
-            >
-              <ListItem
+          {filteredTasks.map((task, index) => (
+              <Box
+                key={index}
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  backgroundColor: "#dbf3bfdc",
+                  padding: 1,
+                  margin: 1,
+                  borderRadius: 5,
+                  height: "auto",
                 }}
               >
-                {editingIndex === index ? (
-                  // Input field for editing
-                  <Box
-                    sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
-                  >
-                    <TextField
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      sx={{ marginRight: 1 }}
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      sx={{ marginRight: 1 }}
-                      onClick={handleSaveEdit}
+                <ListItem
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  {editingIndex === index ? (
+                    // Input field for editing
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexGrow: 1,
+                      }}
                     >
-                      Save
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                      onClick={handleCancelEdit}
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                ) : (
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        //   checked={checked.includes(value)}
-                        tabIndex={-1}
-                        disableRipple
-                        //   inputProps={{ 'aria-labelledby': labelId }}
+                      <TextField
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        sx={{ marginRight: 1 }}
                       />
-                    </ListItemIcon>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        sx={{ marginRight: 1 }}
+                        onClick={handleSaveEdit}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          //   checked={checked.includes(value)}
 
-                    <Typography>{task.title}</Typography>
+                          onChange={() => handleComplete(index)}
+                          tabIndex={-1}
+                          disableRipple
+                          //   inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </ListItemIcon>
+
+                      <Typography>{task.title}</Typography>
+                    </Box>
+                  )}
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <IconButton
+                      edge="start"
+                      aria-label="edit"
+                      onClick={() => handleEdit(index)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(index)}
+                      edge="start"
+                      aria-label="delete"
+                    >
+                      <DeleteIcon sx={{ color: "red" }} />
+                    </IconButton>
                   </Box>
-                )}
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <IconButton edge="start" aria-label="edit" onClick={() => handleEdit(index)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(index)}
-                    edge="start"
-                    aria-label="delete"
-                  >
-                    <DeleteIcon sx={{ color: "red" }} />
-                  </IconButton>
-                </Box>
-              </ListItem>
-            </Box>
-          ))}
+                </ListItem>
+              </Box>
+            ))}
         </List>
       ) : (
         <Typography variant="h6" align="center">
@@ -197,16 +252,17 @@ const Task = ({ tasks, setTasks }) => {
         Add Task
       </Button>
 
-    {/* scroll  */}
+      {/* scroll  */}
       {scrollPosition === 0 ? (
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            // marginTop: 2,
+            // marginTop: 0,
             position: "absolute",
             alignItems: "center",
-            left: "50%",
+            left: "94%",
+            top: "90%",
           }}
         >
           <IconButton
@@ -228,7 +284,8 @@ const Task = ({ tasks, setTasks }) => {
             // marginTop: 2,
             position: "absolute",
             alignItems: "center",
-            left: "50%",
+            left: "94%",
+            top: "90%",
           }}
         >
           <IconButton
