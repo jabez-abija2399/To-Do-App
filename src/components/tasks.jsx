@@ -61,6 +61,7 @@ const Task = () => {
         margin: "20px auto",
         padding: 2,
         position: "relative",
+        height: 560,  
       }}
     >
       {tasks.length !== 0 ? (
