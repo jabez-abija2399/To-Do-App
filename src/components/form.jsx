@@ -54,13 +54,14 @@ const AddTaskForm = ({ tasks, setTasks }) => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ backgroundColor: "#4caf50" }}
+            sx={{ backgroundColor: "#384727dc" }}
           >
             Add Task
           </Button>
           <Button
           variant="outlined"
-          sx={{ marginLeft: 2 }}
+          color="black"
+          sx={{ marginLeft: 2, backgroundColor: "red" }}
           onClick={() => navigate("/")}
         >
           Cancel
