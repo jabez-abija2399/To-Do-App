@@ -8,12 +8,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useNavigate } from "react-router-dom";
 
-const Task = () => {
+const Task = ({tasks, setTasks}) => {
   const listRef = useRef(null);
-  const [tasks, setTasks] = useState(ListOfTasks);
+  const navigate = useNavigate();
+
   const [scrollPosition, setScrollPosition] = useState(0);
 
+  
   // fuction to handle the scrooll to the Top of the list
   const scrollTop = () => {
     if (listRef.current) {
@@ -53,6 +56,11 @@ const Task = () => {
     setTasks(newTasks);
   };
 
+  // const handleAddTask = (newTask) => {
+  //   setTasks((prevTasks) => [...prevTasks, { title: newTask, completed: false }]);
+  // };
+
+
   return (
     <Box
       component={Paper}
@@ -64,6 +72,7 @@ const Task = () => {
         height: 560,  
       }}
     >
+       {/* <AddTaskForm onAddTask={handleAddTask} /> */}
       {tasks.length !== 0 ? (
       <List
         component={Paper}
@@ -108,7 +117,7 @@ const Task = () => {
                   />
                 </ListItemIcon>
 
-                <Typography>{task.text}</Typography>
+                <Typography>{task.title}</Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton edge="start" aria-label="edit">
@@ -133,6 +142,7 @@ const Task = () => {
       <Button
         variant="contained"
         sx={{ backgroundColor: "#384727dc", marginTop: 2 }}
+        onClick={() => navigate("/add")}
       >
         Add Task
       </Button>
