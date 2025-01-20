@@ -1,19 +1,16 @@
-import React from "react";
-import {PropTypes} from "prop-types";
-import { Box, CssBaseline, Fab, Typography, Paper, AppBar, Toolbar, Container } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Fade from "@mui/material/Fade";
+import React, { useState } from "react";
+import { CssBaseline, Box, Paper, Typography } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Task from "./components/tasks";
+import AddTaskForm from "./components/form";
+import ListOfTasks from "./taskLists";
 
-function App(props) {
+function App() {
+  const [tasks, setTasks] = useState(ListOfTasks);
+
   return (
     <>
-    <CssBaseline />
-    {/* AppBar at the top */}
-
-    {/* Main To-Do List Section */}
-    <Container>
+      <CssBaseline />
       <Box
         component={Paper}
         sx={{
@@ -21,27 +18,27 @@ function App(props) {
           height: 650,
           maxWidth: 800,
           margin: "10px auto",
-          // padding: 2,
           backgroundColor: "#384727dc",
           borderRadius: 10,
         }}
       >
         <Typography variant="h4" align="center">
-          To Do
+          To Do List
         </Typography>
-        <Task />
-        
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={<Task tasks={tasks} setTasks={setTasks} />}
+            />
+            <Route
+              path="/add"
+              element={<AddTaskForm tasks={tasks} setTasks={setTasks} />}
+            />
+          </Routes>
+        </Router>
       </Box>
-    </Container>
-
-    {/* Scroll to Top Button */}
-    {/* <ScrollTop {...props}>
-      <Fab size="small" aria-label="scroll back to top">
-        <KeyboardArrowUpIcon />
-      </Fab>
-    </ScrollTop> */}
-  </>
-
+    </>
   );
 }
 
