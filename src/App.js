@@ -5,8 +5,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fade from "@mui/material/Fade";
 import Task from "./components/tasks";
-import ScrollTop from "./components/scrollTop";
-
 
 function App(props) {
   return (
@@ -20,10 +18,10 @@ function App(props) {
         component={Paper}
         sx={{
           width: "100%",
-          height: 550,
+          height: 650,
           maxWidth: 800,
-          margin: "100px auto",
-          padding: 2,
+          margin: "10px auto",
+          // padding: 2,
           backgroundColor: "#384727dc",
         }}
       >
