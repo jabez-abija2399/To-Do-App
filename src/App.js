@@ -23,6 +23,7 @@ function App(props) {
           margin: "10px auto",
           // padding: 2,
           backgroundColor: "#384727dc",
+          borderRadius: 10,
         }}
       >
         <Typography variant="h4" align="center">
