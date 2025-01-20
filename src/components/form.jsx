@@ -26,11 +26,13 @@ const AddTaskForm = ({ tasks, setTasks }) => {
         maxWidth: 600,
         margin: "20px auto",
         boxShadow: 3,
+        borderRadius: 10,
+        padding: 3,
       }}
     >
-      {/* <Typography variant="h5" align="center" gutterBottom>
+      <Typography variant="h5" align="center" gutterBottom>
         Add New Task
-      </Typography> */}
+      </Typography>
 
       <form onSubmit={handleSubmit}>
         <Box sx={{ display: "flex", maxWidth: 400, margin: "20px auto" }}>
@@ -38,9 +40,11 @@ const AddTaskForm = ({ tasks, setTasks }) => {
             label="Task"
             variant="outlined"
             fullWidth
+            helperText="Enter a new task"
             value={task}
             onChange={handleInputChange}
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2}}
+
           />
         </Box>
 
