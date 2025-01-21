@@ -22,6 +22,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItemDisplay";
+import EditTaskForm from "../components/EditTaskForm";
 
 const HomePage = ({ tasks, setTasks }) => {
   const listRef = useRef(null);
@@ -213,9 +214,9 @@ const HomePage = ({ tasks, setTasks }) => {
                   <TaskItem
                     key={index}
                     task={task}
-                    handleComplete={handleComplete}
-                    handleEdit={handleEdit}
-                    handleDelete={handleDelete}
+                    handleComplete={() => handleComplete(index)}
+                    handleEdit={() => handleEdit(index)}
+                    handleDelete={() => handleDelete(index)}
                   />
                 )}
               </ListItem>
