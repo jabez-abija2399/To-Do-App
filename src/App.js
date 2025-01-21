@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Task from "./components/tasks";
 import AddTaskForm from "./components/form";
 import ListOfTasks from "./taskLists";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const [tasks, setTasks] = useState(ListOfTasks);
@@ -30,7 +31,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Task tasks={tasks} setTasks={setTasks} />}
+              element={<HomePage tasks={tasks} setTasks={setTasks} />}
             />
             <Route
               path="/add"
