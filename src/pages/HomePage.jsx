@@ -184,31 +184,12 @@ const HomePage = ({ tasks, setTasks }) => {
                       flexGrow: 1,
                     }}
                   >
-                    <TextField
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      sx={{ marginRight: 1 }}
+                    <EditTaskForm
+                      editText={editText}
+                      setEditText={setEditText}
+                      handleCancelEdit={handleCancelEdit}
+                      handleSaveEdit={handleSaveEdit}
                     />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      sx={{ marginRight: 1 }}
-                      onClick={handleSaveEdit}
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                      onClick={handleCancelEdit}
-                    >
-                      Cancel
-                    </Button>
                   </Box>
                 ) : (
                   <TaskItem
