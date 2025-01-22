@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import ListOfTasks from "../taskLists";
 import {
   Box,
   Paper,
@@ -7,19 +6,7 @@ import {
   ListItem,
   Typography,
   Button,
-  TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
 } from "@mui/material";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Checkbox from "@mui/material/Checkbox";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItemDisplay";
 import EditTaskForm from "../components/EditTaskForm";
@@ -33,7 +20,6 @@ const HomePage = ({ tasks, setTasks }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [editingIndex, setEditingIndex] = useState(null); // Track the task being edited
   const [editText, setEditText] = useState(""); // Temporary state for edited task text
-  const [completed, setCompleted] = useState(false);
   const [filter, setFilter] = useState("all"); // Filter state
 
   // fuction to handle the scrooll to the Top of the list
