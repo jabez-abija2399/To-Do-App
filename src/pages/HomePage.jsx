@@ -6,15 +6,30 @@ import EditTaskForm from "../components/EditTaskForm";
 import FilterDropDown from "./../components/FilterDropDown";
 import ScrollableButton from "../components/ScrollableButton";
 import TaskItemList from "../components/TaskItemList";
+import UseTaskAction from "../hooks/UseTaskAction";
 
 const HomePage = ({ tasks, setTasks }) => {
   const listRef = useRef(null);
   const navigate = useNavigate();
-
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [editingIndex, setEditingIndex] = useState(null); // Track the task being edited
-  const [editText, setEditText] = useState(""); // Temporary state for edited task text
   const [filter, setFilter] = useState("all"); // Filter state
+  // Filter tasks based on the selected filter
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed") return task.completed;
+    if (filter === "incomplete") return !task.completed;
+    return true; // "all"
+  });
+
+  const {
+    editingIndex,
+    editText,
+    setEditText,
+    handleDelete,
+    handleEdit,
+    handleSaveEdit,
+    handleCancelEdit,
+    handleComplete,
+  } = UseTaskAction({ tasks, setTasks, filteredTasks });
 
   // fuction to handle the scrooll to the Top of the list
   const scrollTop = () => {
@@ -47,55 +62,6 @@ const HomePage = ({ tasks, setTasks }) => {
       }
     };
   }, []);
-
-  const handleDelete = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-  };
-
-  // const handleAddTask = (newTask) => {
-  //   setTasks((prevTasks) => [...prevTasks, { title: newTask, completed: false }]);
-  // };
-
-  const handleEdit = (index) => {
-    setEditingIndex(index); // Set the task to edit mode
-    setEditText(tasks[index].title); // Set the current text as the default value
-  };
-
-  const handleSaveEdit = () => {
-    const updatedTasks = [...tasks];
-    updatedTasks[editingIndex].title = editText; // Update the task title
-    setTasks(updatedTasks); // Update state
-    setEditingIndex(null); // Exit edit mode
-    setEditText(""); // Clear temporary state
-  };
-
-  const handleCancelEdit = () => {
-    setEditingIndex(null); // Exit edit mode
-    setEditText(""); // Clear temporary state
-  };
-
-  const handleComplete = (filteredIndex) => {
-    // Find the task's index in the original tasks array
-    const taskIndex = tasks.findIndex(
-      (task) => task === filteredTasks[filteredIndex]
-    );
-
-    // Toggle completion status
-    const updatedTasks = [...tasks];
-    updatedTasks[taskIndex].completed = !updatedTasks[taskIndex].completed;
-
-    // Update tasks state
-    setTasks(updatedTasks);
-  };
-
-  // Filter tasks based on the selected filter
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "completed") return task.completed;
-    if (filter === "incomplete") return !task.completed;
-    return true; // "all"
-  });
 
   return (
     <Box
