@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItemDisplay";
 import EditTaskForm from "../components/EditTaskForm";
 import FilterDropDown from './../components/FilterDropDown';
+import ScrollableButton from "../components/ScrollableButton";
 
 const HomePage = ({ tasks, setTasks }) => {
   const listRef = useRef(null);
@@ -209,53 +210,8 @@ const HomePage = ({ tasks, setTasks }) => {
       </Button>
 
       {/* scroll  */}
-      {scrollPosition === 0 ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            // marginTop: 0,
-            position: "absolute",
-            alignItems: "center",
-            left: "94%",
-            top: "90%",
-          }}
-        >
-          <IconButton
-            sx={{
-              backgroundColor: "#5fac07dc",
-              borderRadius: "50%",
-              boxShadow: 2,
-            }}
-            onClick={scrollBottom}
-          >
-            <KeyboardArrowDownIcon sx={{ color: "black" }} />
-          </IconButton>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            // marginTop: 2,
-            position: "absolute",
-            alignItems: "center",
-            left: "94%",
-            top: "90%",
-          }}
-        >
-          <IconButton
-            sx={{
-              backgroundColor: "#5fac07dc",
-              borderRadius: "50%",
-              boxShadow: 4,
-            }}
-            onClick={scrollTop}
-          >
-            <KeyboardArrowUpIcon sx={{ color: "black" }} />
-          </IconButton>
-        </Box>
-      )}
+      <ScrollableButton scrollBottom={scrollBottom} scrollTop={scrollTop} scrollPosition={scrollPosition} />
+      
     </Box>
   );
 };
