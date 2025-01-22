@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CssBaseline, Box, Paper, Typography } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Task from "./components/tasks";
-import AddTaskForm from "./components/form";
+import AddTaskForm from "./components/AddTaskForm";
 import ListOfTasks from "./taskLists";
 import HomePage from "./pages/HomePage";
 
