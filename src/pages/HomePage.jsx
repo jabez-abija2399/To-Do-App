@@ -1,17 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Paper,
-  List,
-  ListItem,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Paper, List, ListItem, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItemDisplay";
 import EditTaskForm from "../components/EditTaskForm";
-import FilterDropDown from './../components/FilterDropDown';
+import FilterDropDown from "./../components/FilterDropDown";
 import ScrollableButton from "../components/ScrollableButton";
+import TaskItemList from "../components/TaskItemList";
 
 const HomePage = ({ tasks, setTasks }) => {
   const listRef = useRef(null);
@@ -124,64 +118,18 @@ const HomePage = ({ tasks, setTasks }) => {
       <FilterDropDown filter={filter} setFilter={setFilter} />
 
       {filteredTasks.length !== 0 ? (
-        <List
-          component={Paper}
-          ref={listRef}
-          sx={{
-            maxHeight: 350,
-            overflowY: "auto",
-            overflowX: "hidden",
-            padding: 1,
-          }}
-        >
-          {filteredTasks.map((task, index) => (
-            <Box
-              key={index}
-              sx={{
-                backgroundColor: "#dbf3bfdc",
-                padding: 1,
-                margin: 1,
-                borderRadius: 5,
-                height: "auto",
-              }}
-            >
-              <ListItem
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                {editingIndex === index ? (
-                  // Input field for editing
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexGrow: 1,
-                    }}
-                  >
-                    <EditTaskForm
-                      editText={editText}
-                      setEditText={setEditText}
-                      handleCancelEdit={handleCancelEdit}
-                      handleSaveEdit={handleSaveEdit}
-                    />
-                  </Box>
-                ) : (
-                  // {/* Display task item */}
-                  <TaskItem
-                    key={index}
-                    task={task}
-                    handleComplete={() => handleComplete(index)}
-                    handleEdit={() => handleEdit(index)}
-                    handleDelete={() => handleDelete(index)}
-                  />
-                )}
-              </ListItem>
-            </Box>
-          ))}
-        </List>
+        <TaskItemList
+          filteredTasks={filteredTasks}
+          editText={editText}
+          editingIndex={editingIndex}
+          setEditText={setEditText}
+          listRef={listRef}
+          handleCancelEdit={handleCancelEdit}
+          handleComplete={handleComplete}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          handleSaveEdit={handleSaveEdit}
+        />
       ) : (
         <Typography variant="h6" align="center">
           No tasks
@@ -196,8 +144,11 @@ const HomePage = ({ tasks, setTasks }) => {
       </Button>
 
       {/* scroll  */}
-      <ScrollableButton scrollBottom={scrollBottom} scrollTop={scrollTop} scrollPosition={scrollPosition} />
-      
+      <ScrollableButton
+        scrollBottom={scrollBottom}
+        scrollTop={scrollTop}
+        scrollPosition={scrollPosition}
+      />
     </Box>
   );
 };
