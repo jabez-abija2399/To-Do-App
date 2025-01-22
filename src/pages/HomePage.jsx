@@ -23,6 +23,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItemDisplay";
 import EditTaskForm from "../components/EditTaskForm";
+import FilterDropDown from './../components/FilterDropDown';
 
 const HomePage = ({ tasks, setTasks }) => {
   const listRef = useRef(null);
@@ -133,18 +134,7 @@ const HomePage = ({ tasks, setTasks }) => {
         {filteredTasks.length} Tasks
       </Typography>
       {/* Dropdown for Filtering */}
-      <FormControl fullWidth sx={{ marginBottom: 2 }}>
-        <InputLabel>Filter Tasks</InputLabel>
-        <Select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          label="Filter Tasks"
-        >
-          <MenuItem value="all">All</MenuItem>
-          <MenuItem value="completed">Completed</MenuItem>
-          <MenuItem value="incomplete">Incomplete</MenuItem>
-        </Select>
-      </FormControl>
+      <FilterDropDown filter={filter} setFilter={setFilter} />
 
       {filteredTasks.length !== 0 ? (
         <List
@@ -192,6 +182,7 @@ const HomePage = ({ tasks, setTasks }) => {
                     />
                   </Box>
                 ) : (
+                  // {/* Display task item */}
                   <TaskItem
                     key={index}
                     task={task}
