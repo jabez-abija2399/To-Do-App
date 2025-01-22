@@ -7,7 +7,7 @@ import ListOfTasks from "./taskLists";
 import HomePage from "./pages/HomePage";
 
 function App() {
-  const [tasks, setTasks] = useState(ListOfTasks);
+  const [tasks, setTasks] = useState(ListOfTasks|| []);
 
   return (
     <>
