@@ -13,7 +13,7 @@ const AddTaskForm = ({ tasks, setTasks }) => {
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent page reload
     if (task.trim() !== "") {
-        const newTask = { title: task, completed: false };
+        const newTask = {id: Date.now(),  title: task, completed: false };
         setTasks([...tasks, newTask]); // Add new task to the tasks array
         navigate("/"); // Navigate back to task list
     }
